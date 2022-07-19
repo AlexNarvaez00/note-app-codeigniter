@@ -41,6 +41,8 @@ class Notes extends Migration
 				'null' => true
 			]
 		]);
+		//Agregamos la llave primaria
+		$this->forge->addPrimaryKey('id');
 		//Creamos la tabla en la base de datos
 		$this->forge->createTable('notes');
 	}

@@ -11,10 +11,14 @@ class NotesSeeder extends Seeder
 	{
 		//Creamos un objeto del modelo
 		$notesObj = new NotesModel();
-		$notesObj->insert([
-			'id' => 'NOTE-1',
-			'title' => 'Titulo primero',
-			'content' => 'Voy a escribir los versos mas triste esta noche ....'
-		]);
+		//Creamos una instancia de Faker
+		$fakerObj = \Faker\Factory::create();
+		for ($i = 0; $i < 300; $i++) {
+			$notesObj->insert([
+				'id' => 'NOTE-' . $i,
+				'title' => $fakerObj->sentence(15),
+				'content' => $fakerObj->paragraph()
+			]);
+		}
 	}
 }
