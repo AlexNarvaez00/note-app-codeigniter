@@ -12,7 +12,7 @@ class Notes extends Model
 	protected $useAutoIncrement = false;
 	protected $insertID         = '';
 	protected $returnType       = 'array';
-	protected $useSoftDeletes   = false;
+	protected $useSoftDeletes   = true;
 	protected $protectFields    = true;
 	protected $allowedFields    = ['id', 'title', 'content', 'created_at', 'updated_at', 'deleted_at'];
 
