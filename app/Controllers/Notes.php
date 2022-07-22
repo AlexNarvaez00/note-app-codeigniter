@@ -44,6 +44,29 @@ class Notes extends BaseController
                 return $this->bladeObj->view()->make('notes.home', $data)->render();
         }
         /**
+         * Despliega la vista para solo mostrar informacion 
+         */
+        public function show($id)
+        {
+                //Este areglo de usa para marcar en donde esta parada la vista
+                $data['indexList'] = [
+                        [
+                                'name' => 'Notes',
+                                'link' => '/note'
+                        ],
+                        [
+                                'name'  => $id,
+                                'active' => true
+                        ]
+                ];
+                $notes = new ModelsNotes();
+                $note = $notes->find($id);
+                if ($note) {
+                        $data['note'] = $note;
+                        return $this->bladeObj->view()->make('notes.show', $data)->render();
+                }
+        }
+        /**
          * Muestra la vista para agregar un nuevo registro
          */
         public function new()
@@ -89,6 +112,9 @@ class Notes extends BaseController
                         return redirect()->to(base_url('/notes'));
                 }
         }
+        /**
+         * Muestra la vista con la informacion del registro solicitado
+         */
         public function edit($id)
         {
                 //Este areglo de usa para marcar en donde esta parada la vista
