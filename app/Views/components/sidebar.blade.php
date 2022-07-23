@@ -449,10 +449,14 @@
                         <li class="menu active">
                                 <a href="#layouts" data-bs-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
                                         <div class="">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-terminal">
-                                                        <polyline points="4 17 10 11 4 5"></polyline>
-                                                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+                                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                                        <polyline points="10 9 9 9 8 9"></polyline>
                                                 </svg>
+
                                                 <span>Notes</span>
                                         </div>
                                         <div>
@@ -462,21 +466,28 @@
                                         </div>
                                 </a>
                                 <ul class="collapse submenu list-unstyled show" id="layouts" data-bs-parent="#accordionExample">
-                                        <li class="active">
-                                                <a href="./layout-blank-page.html"> List Notes </a>
+                                        <?php
+                                        $currentURL =  str_replace('index.php/', '', current_url());
+                                        ?>
+
+                                        <li class="{{ (strcmp($currentURL,base_url('/notes')) == 0 )? 'active': '' }}">
+                                                <a href="{{base_url('/notes')}}"> List Notes </a>
                                         </li>
-                                        <li>
+                                        <li class="{{ (strcmp($currentURL,base_url('/notes/new')) == 0 )? 'active': '' }}">
                                                 <a href="{{base_url('/notes/new')}}"> Add </a>
                                         </li>
-                                        <li>
-                                                <a href="./layout-full-width.html"> Full Width </a>
-                                        </li>
-                                        <li>
-                                                <a href="./layout-collapsible-menu.html"> Collapsed Menu </a>
-                                        </li>
+                                        <!---                                        
+                                                <li>
+                                                        <a href="./layout-full-width.html"> Full Width </a>
+                                                </li>
+                                                <li>
+                                                        <a href="./layout-collapsible-menu.html"> Collapsed Menu </a>
+                                                </li>
+                                        -->
                                 </ul>
-                        </li>
 
+                        </li>
+                        <!---
                         <li class="menu menu-heading">
                                 <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus">
                                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -834,7 +845,7 @@
                                         </div>
                                 </a>
                         </li>
-
+                        -->
                 </ul>
 
         </nav>
