@@ -51,7 +51,8 @@ class Notes extends BaseController
 			$profiles = new ModelsProfile();
 			$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
 			$data['profile'] = $profile[0];
-			return $this->bladeObj->view()->make('notes.home', $data)->render();
+			return view('notes.home',$data);
+			//	return $this->bladeObj->view()->make('notes.home', $data)->render();
 		} else {
 			return redirect()->to('/login');
 		}

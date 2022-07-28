@@ -1,30 +1,34 @@
 <?= helper('html') ?>
-@extends('components.root')
+<?= $this->extends('components.root') ?>
 <!--Titutlo de la seccion-->
-@section('title-page','All notes')
+<?= $this->section('title-page') ?>
+All Notes
+<?= $this->endSection(); ?>
 
-@section('styles')
+<?= $this->section('styles') ?>
 <?= link_tag('cork/src/plugins/src/table/datatable/datatables.css') ?>
 <?= link_tag('cork/src/plugins/css/light/table/datatable/dt-global_style.css') ?>
 <?= link_tag('cork/src/plugins/css/dark/table/datatable/dt-global_style.css') ?>
-@endsection
-
-
+<?= $this->endSection() ?>
 
 <!-- BEGIN INDEX-->
-@section('indexes-page')
-@foreach($indexList as $index)
-<li class="breadcrumb-item"><a href="#">{{$index['name']}}</a></li>
-@endforeach
-@endsection
+<?= $this->section('indexes-page') ?>
+<?php foreach ($indexList as $index) : ?>
+	<li class="breadcrumb-item">
+		<a href="#">
+			<?= $index['name'] ?>
+		</a>
+	</li>
+<?php endforeach; ?>
+<?= $this->endSection() ?>
 <!-- END INDEX-->
 <!-- BEGIN MAIN-->
-@section('main-content')
-@include('notes.table')
-@endsection
+<?= $this->section('main-content') ?>
+<?= $this->include('notes.table') ?>
+<?= $this->endSection() ?>
 <!-- END MAIN-->
 <!--BEGIN SCRIPTS -->
-@section('script-section')
+<?= $this->section('script-section')  ?>
 <?= script_tag('cork/src/plugins/src/table/datatable/datatables.js') ?>
 <script>
 	$('#zero-config').DataTable({
@@ -47,5 +51,5 @@
 	});
 </script>
 <?= script_tag('cork/notes/actions.js') ?>
-@endsection
+<?= $this->endSection() ?>
 <!--END SCRIPTS-->

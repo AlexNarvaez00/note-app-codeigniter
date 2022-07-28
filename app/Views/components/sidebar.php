@@ -470,11 +470,11 @@
                                         $currentURL =  str_replace('index.php/', '', current_url());
                                         ?>
 
-                                        <li class="{{ (strcmp($currentURL,base_url('/notes')) == 0 )? 'active': '' }}">
-                                                <a href="{{base_url('/notes')}}"> List Notes </a>
+                                        <li class="<?=  (strcmp($currentURL,base_url('/notes')) == 0 )? 'active': ''  ?>">
+                                                <a href="<?= base_url('/notes') ?>"> List Notes </a>
                                         </li>
-                                        <li class="{{ (strcmp($currentURL,base_url('/notes/new')) == 0 )? 'active': '' }}">
-                                                <a href="{{base_url('/notes/new')}}"> Add </a>
+                                        <li class="<?=  (strcmp($currentURL,base_url('/notes/new')) == 0 )? 'active': ''  ?>">
+                                                <a href="<?= base_url('/notes/new') ?>"> Add </a>
                                         </li>
                                         <!---                                        
                                                 <li>

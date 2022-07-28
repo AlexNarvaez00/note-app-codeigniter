@@ -58,5 +58,5 @@ $routes->resource('notes');
 $routes->get('login','Login::index');
 $routes->post('login','Login::login');
 $routes->get('/logout','Login::logout');
-$routes->get('/profile','Profile::index');
+$routes->resource('profile');
 //service('auth')->routes($routes);

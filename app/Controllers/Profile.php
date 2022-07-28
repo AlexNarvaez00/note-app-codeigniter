@@ -38,11 +38,39 @@ class Profile extends BaseController
 			$data['user'] = ['username' => auth()->getUser()->username];
 			//Buscamos la informacion del usuario
 			$profiles = new ModelsProfile();
-			$profile = $profiles->where('idUser',auth()->getUser()->id)->findAll();
+			$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
 			$data['profile'] = $profile[0];
 			return $this->bladeObj->view()->make('profile.profile', $data)->render();
 		} else {
 			return redirect()->to('/login');
 		}
+	}
+	public function edit($id)
+	{
+		//Este areglo de usa para marcar en donde esta parada la vista
+		$data['indexList'] = [
+			[
+				'name' => 'Notes',
+				'link' => '/note'
+			],
+			[
+				'name'  => 'profile',
+				'active' => false
+			],
+			[
+				'name' => auth()->getUser()->id,
+				'active' => false
+			],
+			[
+				'name' => 'edit',
+				'active' => true
+			]
+		];
+		$data['user'] = ['username' => auth()->getUser()->username];
+		//Buscamos la informacion del usuario
+		$profiles = new ModelsProfile();
+		$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+		$data['profile'] = $profile[0];
+		return $this->bladeObj->view()->make('profile.edit', $data)->render();
 	}
 }
