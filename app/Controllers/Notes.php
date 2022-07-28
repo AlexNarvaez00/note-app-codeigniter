@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Notes as ModelsNotes;
 use Coolpraz\PhpBlade\PhpBlade;
-
+use App\Models\Profile as ModelsProfile;
 /**
  *@author Narvaez Ruiz Alexis
  *  
@@ -42,11 +42,15 @@ class Notes extends BaseController
 					'active' => true
 				]
 			];
-			$data['user'] = [ 'username' => auth()->getUser()->username]; 
+			$data['user'] = ['username' => auth()->getUser()->username];
 			//Creamos un objeto del modelo
 			$notes = new ModelsNotes();
 			//Paginamos los resultados
 			$data['notes'] = $notes->findAll();
+			//Buscamos la informacion del usuario
+			$profiles = new ModelsProfile();
+			$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+			$data['profile'] = $profile[0];
 			return $this->bladeObj->view()->make('notes.home', $data)->render();
 		} else {
 			return redirect()->to('/login');
@@ -70,11 +74,15 @@ class Notes extends BaseController
 					'active' => true
 				]
 			];
-				$data['user'] = [ 'username' => auth()->getUser()->username];
+			$data['user'] = ['username' => auth()->getUser()->username];
 			$notes = new ModelsNotes();
 			$note = $notes->find($id);
 			if ($note) {
 				$data['note'] = $note;
+				//Buscamos la informacion del usuario
+				$profiles = new ModelsProfile();
+				$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+				$data['profile'] = $profile[0];
 				return $this->bladeObj->view()->make('notes.show', $data)->render();
 			}
 		} else {
@@ -99,8 +107,12 @@ class Notes extends BaseController
 				]
 			];
 			session();
-				$data['user'] = [ 'username' => auth()->getUser()->username];
+			$data['user'] = ['username' => auth()->getUser()->username];
 			$data['validation'] = \Config\Services::validation();
+			//Buscamos la informacion del usuario
+			$profiles = new ModelsProfile();
+			$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+			$data['profile'] = $profile[0];
 			return $this->bladeObj->view()->make('notes.add', $data)->render();
 		} else {
 			return redirect()->to('/login');
@@ -158,12 +170,16 @@ class Notes extends BaseController
 					'active' => true
 				]
 			];
-				$data['user'] = [ 'username' => auth()->getUser()->username];
+			$data['user'] = ['username' => auth()->getUser()->username];
 			//Objeto del model
 			$notes = new ModelsNotes();
 			$data['note'] = $notes->find($id);
 			session();
 			$data['validation'] = \Config\Services::validation();
+			//Buscamos la informacion del usuario
+			$profiles = new ModelsProfile();
+			$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+			$data['profile'] = $profile[0];
 			return $this->bladeObj->view()->make('notes.edit', $data)->render();
 		} else {
 			return redirect()->to('/login');

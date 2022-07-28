@@ -13,6 +13,9 @@
  | NOTE: changing this will require manually modifying the
  | existing namespaces of App\* namespaced-classes.
  */
+
+use Coolpraz\PhpBlade\PhpBlade;
+
 defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
 
 /*
@@ -92,3 +95,13 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+
+
+/**
+ * Constante para el renderizado de blade.
+ *
+ */
+
+
+

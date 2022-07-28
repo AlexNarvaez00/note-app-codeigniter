@@ -23,15 +23,16 @@
         <?= link_tag("cork/src/bootstrap/css/bootstrap.min.css") ?>
         <?= link_tag("cork/layouts/vertical-light-menu/css/light/plugins.css") ?>
         <?= link_tag("cork/layouts/vertical-light-menu/css/dark/plugins.css") ?>
-        <?= link_tag('cork/src/plugins/src/table/datatable/datatables.css') ?>
-        <?= link_tag('cork/src/plugins/css/light/table/datatable/dt-global_style.css') ?>
-        <?= link_tag('cork/src/plugins/css/dark/table/datatable/dt-global_style.css') ?>
+       
         <!-- END GLOBAL MANDATORY STYLES -->
 
         <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
         <?= link_tag('cork/src/assets/css/light/elements/alert.css') ?>
         <?= link_tag('cork/src/assets/css/dark/elements/alert.css') ?>
         <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+
+	@yield('styles','')
+
 
         <style>
                 body.dark .layout-px-spacing,
