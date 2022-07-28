@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e78050d69da36b24ba142a4c902f0e37",
+    "content-hash": "7400cb5805ce2b347b12dff54d3674ee",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -132,12 +132,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/shield.git",
-                "reference": "d2aff61fe9e3e12a8e85897ef1273b9fbf243b41"
+                "reference": "f96bdad8c28d8bc2c7d1f9dc7d2b1e7c98d9db07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/shield/zipball/d2aff61fe9e3e12a8e85897ef1273b9fbf243b41",
-                "reference": "d2aff61fe9e3e12a8e85897ef1273b9fbf243b41",
+                "url": "https://api.github.com/repos/codeigniter4/shield/zipball/f96bdad8c28d8bc2c7d1f9dc7d2b1e7c98d9db07",
+                "reference": "f96bdad8c28d8bc2c7d1f9dc7d2b1e7c98d9db07",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
                 "issues": "https://github.com/codeigniter4/shield/issues",
                 "source": "https://github.com/codeigniter4/shield/tree/develop"
             },
-            "time": "2022-07-19T08:48:02+00:00"
+            "time": "2022-07-26T10:28:23+00:00"
         },
         {
             "name": "coolpraz/php-blade",
@@ -3176,16 +3176,16 @@
         },
         {
             "name": "mikey179/vfsstream",
-            "version": "v1.6.10",
+            "version": "v1.6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bovigo/vfsStream.git",
-                "reference": "250c0825537d501e327df879fb3d4cd751933b85"
+                "reference": "17d16a85e6c26ce1f3e2fa9ceeacdc2855db1e9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bovigo/vfsStream/zipball/250c0825537d501e327df879fb3d4cd751933b85",
-                "reference": "250c0825537d501e327df879fb3d4cd751933b85",
+                "url": "https://api.github.com/repos/bovigo/vfsStream/zipball/17d16a85e6c26ce1f3e2fa9ceeacdc2855db1e9f",
+                "reference": "17d16a85e6c26ce1f3e2fa9ceeacdc2855db1e9f",
                 "shasum": ""
             },
             "require": {
@@ -3223,7 +3223,7 @@
                 "source": "https://github.com/bovigo/vfsStream/tree/master",
                 "wiki": "https://github.com/bovigo/vfsStream/wiki"
             },
-            "time": "2021-09-25T08:05:01+00:00"
+            "time": "2022-02-23T02:02:42+00:00"
         },
         {
             "name": "myclabs/deep-copy",
