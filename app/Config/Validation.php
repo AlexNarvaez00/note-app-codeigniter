@@ -44,5 +44,10 @@ class Validation extends BaseConfig
         public $notes = [
                 'title' => 'required|min_length[3]|max_length[120]',
                 'content' => 'required|min_length[3]|max_length[300]'
-        ];
+	];
+	public $profiles = [
+		'workstation' => 'alpha_space',
+		'cellphone' => 'numeric',
+		''
+	];
 }

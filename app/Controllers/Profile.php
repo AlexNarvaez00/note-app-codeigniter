@@ -4,20 +4,16 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Profile as ModelsProfile;
-use Coolpraz\PhpBlade\PhpBlade;
+use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserModel;
+use PhpParser\Node\Expr\FuncCall;
 
 class Profile extends BaseController
 {
 	protected $helpers = ['auth', 'setting'];
 	//Variables de la vista
-	private $views;
-	private $cache;
-	private $bladeObj;
 	public function __construct()
 	{
-		$this->views = __DIR__ . '/../Views';
-		$this->cache = __DIR__ . '/../../vendor/cache';
-		$this->bladeObj = new PhpBlade($this->views, $this->cache);
 	}
 
 	public function index()
@@ -40,7 +36,7 @@ class Profile extends BaseController
 			$profiles = new ModelsProfile();
 			$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
 			$data['profile'] = $profile[0];
-			return $this->bladeObj->view()->make('profile.profile', $data)->render();
+			return view('profile/profile', $data);
 		} else {
 			return redirect()->to('/login');
 		}
@@ -71,6 +67,15 @@ class Profile extends BaseController
 		$profiles = new ModelsProfile();
 		$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
 		$data['profile'] = $profile[0];
-		return $this->bladeObj->view()->make('profile.edit', $data)->render();
+		return view('profile/edit', $data);
+	}
+	public function update($id)
+	{
+		$users = new UserModel();
+		$profiles = new ModelsProfile();
+		$profile = $profiles->where('idUser',auth()->getUser()->id)->findAll();
+		$this->validate([
+			
+		]);
 	}
 }

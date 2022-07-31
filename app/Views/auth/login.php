@@ -63,7 +63,7 @@
     <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-8 col-12 d-flex flex-column align-self-center ms-lg-auto me-lg-0 mx-auto">
      <div class="card">
       <div class="card-body">
-       <form action="{{base_url('/login')}}" method="POST">
+       <form action="<?= base_url('/login') ?>" method="POST">
         <?= csrf_field() ?>
         <div class="row">
          <div class="col-md-12 mb-3">
@@ -139,7 +139,7 @@
 
          <div class="col-12">
           <div class="text-center">
-           <p class="mb-0">Dont't have an account ? <a href="javascript:void(0);" class="text-warning">Sign Up</a></p>
+	  <p class="mb-0">Dont't have an account ? <a href="<?= str_replace('index.php/','', url_to('Register::index'))?>" class="text-warning">Sign Up</a></p>
           </div>
          </div>
         </div>

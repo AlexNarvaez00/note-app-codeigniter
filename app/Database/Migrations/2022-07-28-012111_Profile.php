@@ -33,7 +33,7 @@ class Profile extends Migration
 				'null' => true
 			],
 			'facebook_link' => [
-				'type' => 'VARCHAR',
+				'type' => 'TEXT',
 				'null' => true
 			],
 			'cellphone' => [
@@ -42,8 +42,9 @@ class Profile extends Migration
 				'null' => true
 			],
 			'idUser' => [
-				'type' => 'INT',
-				'unique' => true
+				'type' => 'int', 
+				'constraint' => 11, 
+				'unsigned' => true, 
 			],
 			'created_at' => [
 				'type'    => 'TIMESTAMP',
@@ -55,8 +56,8 @@ class Profile extends Migration
 			],
 		]);
 		$this->forge->addPrimaryKey('id');
-		$this->forge->addForeignKey('idUser', 'users', 'id');
-		$this->forge->createTable('profile');
+		//$this->forge->addForeignKey('user_id', 'users', 'id','', 'CASCADE');
+		$this->forge->createTable('profile',true);
 	}
 
 	public function down()

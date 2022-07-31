@@ -14,14 +14,14 @@
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
  <title>
-  <? $this->renderSection('title-page') ?>
+  <?= $this->renderSection('title-page') ?>
  </title>
  <link rel="icon" type="image/x-icon" href="../src/assets/img/favicon.ico" />
  <?= link_tag("cork/layouts/vertical-light-menu/css/light/loader.css") ?>
  <?= link_tag("cork/layouts/vertical-light-menu/css/dark/loader.css") ?>
  <?= script_tag("cork/layouts/vertical-light-menu/loader.js") ?>
  <!-- BEGIN GLOBAL MANDATORY STYLES -->
- <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+ <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">-->
  <?= link_tag("cork/src/bootstrap/css/bootstrap.min.css") ?>
  <?= link_tag("cork/layouts/vertical-light-menu/css/light/plugins.css") ?>
  <?= link_tag("cork/layouts/vertical-light-menu/css/dark/plugins.css") ?>
@@ -33,7 +33,7 @@
  <?= link_tag('cork/src/assets/css/dark/elements/alert.css') ?>
  <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
- <? $this->renderSection('styles') ?>
+ <?= $this->renderSection('styles') ?>
 
 
  <style>
@@ -58,7 +58,7 @@
  <!--  END LOADER -->
 
  <!--  BEGIN NAVBAR  -->
- <?= $this->include('components.navbar') ?>
+ <?= $this->include('components/navbar') ?>
  <!--  END NAVBAR  -->
 
 
@@ -69,7 +69,7 @@
   <div class="search-overlay"></div>
 
   <!--  BEGIN SIDEBAR  -->
-  <?= $this->include('components.sidebar') ?>
+  <?= $this->include('components/sidebar') ?>
   <!--  END SIDEBAR  -->
 
   <!--  BEGIN CONTENT AREA  -->
@@ -82,7 +82,7 @@
      <div class="page-meta">
       <nav class="breadcrumb-style-one" aria-label="breadcrumb">
        <ol class="breadcrumb">
-        <? $this->renderSection('indexes-page' ) ?>
+        <?= $this->renderSection('indexes-page') ?>
         <!--
                                                                         <li class="breadcrumb-item"><a href="#">Layouts</a></li>
                                                                         <li class="breadcrumb-item active" aria-current="page">Empty Page</li>
@@ -96,9 +96,9 @@
      <div class="row layout-top-spacing">
 
       <div class="col-12">
-       <? $this->renderSection('main-content' ) ?>
+       <?= $this->renderSection('main-content') ?>
        <!--BEGIN ALERT-->
-       <!-- <?= $this->include('components.alert') ?> -->
+       <!-- <?= $this->include('components/alert') ?> -->
        <!--END ALERT-->
       </div>
       <div class="col-md-12">
@@ -111,7 +111,7 @@
 
    </div>
    <!-- BEGIN FOOTER-->
-   <?= $this->include('components.footer') ?>
+   <?= $this->include('components/footer') ?>
    <!-- END FOOTER-->
   </div>
   <!--  END CONTENT AREA  -->
@@ -130,10 +130,10 @@
 
  <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
  <script>
-  let darkLogoLink = "<?=base_url('cork/src/assets/img/logo.svg')?>";
-  let lightLogoLink = "<?=base_url('cork/src/assets/img/logo2.svg')?>";
+  let darkLogoLink = "<?= base_url('cork/src/assets/img/logo.svg') ?>";
+  let lightLogoLink = "<?= base_url('cork/src/assets/img/logo2.svg') ?>";
  </script>
- <? $this->renderSection('script-section' ) ?>
+ <?= $this->renderSection('script-section' ) ?>
  <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 </body>
 

@@ -55,8 +55,12 @@ if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 }
 
 $routes->resource('notes');
-$routes->get('login','Login::index');
-$routes->post('login','Login::login');
+$routes->get('/login','Login::index');
+$routes->post('/login','Login::login');
 $routes->get('/logout','Login::logout');
 $routes->resource('profile');
+
+$routes->get('/singup','Register::index');
+$routes->post('/singup','Register::registerAction');
+
 //service('auth')->routes($routes);

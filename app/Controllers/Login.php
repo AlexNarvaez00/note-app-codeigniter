@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use Coolpraz\PhpBlade\PhpBlade;
 
 /**
  *@author Narvaez Ruiz Alexis
@@ -14,20 +13,13 @@ class Login extends BaseController
 	//Helper para iniciar sesion
 	protected $helpers = ['auth', 'setting'];
 
-	//Variables para las vistas de blade
-	private $views;
-	private $cache;
-	private $bladeObj;
 	public function __construct()
 	{
-		$this->views = __DIR__ . '/../Views';
-		$this->cache = __DIR__ . '/../../vendor/cache';
-		$this->bladeObj = new PhpBlade($this->views, $this->cache);
 	}
 
 	public function index()
 	{
-		return $this->bladeObj->view()->make('auth.login', [])->render();
+		return view('auth/login');
 	}
 	/**
 	 * Funcion para iniciar sesion
