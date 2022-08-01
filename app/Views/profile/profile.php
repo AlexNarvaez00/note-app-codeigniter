@@ -35,7 +35,7 @@ Profile
       </svg></a>
     </div>
     <div class="text-center user-info">
-     <?= img($profile['imgProfile'], false, ['class' => 'avatar']) ?>
+     <?= img(base_url('imgs/'.$profile['imgProfile']), false, ['class' => 'avatar']) ?>
      <p class=""><?= $user['username'] ?></p>
     </div>
     <div class="user-info-list">

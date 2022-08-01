@@ -67,15 +67,62 @@ class Profile extends BaseController
 		$profiles = new ModelsProfile();
 		$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
 		$data['profile'] = $profile[0];
+
+		session();
+		$data['errors'] = \Config\Services::validation();
+
 		return view('profile/edit', $data);
 	}
 	public function update($id)
 	{
 		$users = new UserModel();
 		$profiles = new ModelsProfile();
-		$profile = $profiles->where('idUser',auth()->getUser()->id)->findAll();
-		$this->validate([
-			
-		]);
+		$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+		if (strcmp($this->request->getPost('type-informacion'), 'personal') == 0) {
+			$data = [];
+			if ($this->validate('profiles_personal')) {
+				$data = [
+					'id' => $profile[0]['id'],
+					//'imgProfile' => $imgName,
+					'workstation' => $this->request->getPost('workstation'),
+					'cellphone' => $this->request->getPost('cellphone'),
+				];
+				$profiles->save($data);
+				//return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+			} else {
+				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+			}
+			if (strcmp($this->request->getPost('username'), '') != 0 && $this->validate(
+				['username' => array_merge(
+					config('AuthSession')->usernameValidationRules,
+					['is_unique[users.username]']
+				)]
+			)) {
+				$dataUser = [
+					'id' => auth()->getUser()->id,
+					'username' => $this->request->getPost('username')
+				];
+				$userUpdate = new User($dataUser);
+				$users->save($userUpdate);
+			} else {
+				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+			}
+			return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+		} elseif (strcmp($this->request->getPost('type-informacion'), 'social') == 0) {
+			if ($this->validate('profiles_social')) {
+				$data = [
+					'id' => $profile[0]['id'],
+					//'imgProfile' => $imgName,
+					//'workstation' => $this->request->getPost('workstation'),
+					'github_link' => $this->request->getPost('github_link'),
+					'twitter_link' => $this->request->getPost('twitter_link'),
+					'facebook_link' => $this->request->getPost('facebook_link'),
+				];
+				$profiles->save($data);
+				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+			} else {
+				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+			}
+		}
 	}
 }

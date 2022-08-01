@@ -229,7 +229,7 @@
     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
      <div class="avatar-container">
       <div class="avatar avatar-sm avatar-indicators avatar-online">
-       <?= img($profile['imgProfile'], false, ['class' => 'rounded-circle', 'alt' => 'avatar'])  ?>
+       <?= img(base_url('imgs/'.$profile['imgProfile']), false, ['class' => 'rounded-circle', 'alt' => 'avatar'])  ?>
       </div>
      </div>
     </a>
