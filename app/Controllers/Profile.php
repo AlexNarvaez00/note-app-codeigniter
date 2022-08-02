@@ -4,11 +4,12 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Profile as ModelsProfile;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use PhpParser\Node\Expr\FuncCall;
 use CodeIgniter\Shield\Authentication\Passwords;
+
 class Profile extends BaseController
 {
 	protected $helpers = ['auth', 'setting'];
@@ -76,71 +77,48 @@ class Profile extends BaseController
 	}
 	public function update($id)
 	{
+
+		//Instancias de los Modelos
 		$users = new UserModel();
 		$profiles = new ModelsProfile();
+		$identities = new UserIdentityModel();
+		//Busqueda del perfil del usuario
 		$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+		//Cambiarlo por un switch 
 		if (strcmp($this->request->getPost('type-informacion'), 'personal') == 0) {
-			$data = [];
+			//Datos basicos del perfil
+			$dataProfile = [];
+			//Recuperamos y pseudo-comprobamos que los datos existan.
+			$dataProfile['id'] = $profile[0]['id'];
+			$dataProfile['workstation'] = (strcmp($this->request->getPost('workstation'), '') == 0) ?
+				$profile[0]['workstation'] : $this->request->getPost('workstation');
+			$dataProfile['cellphone'] = (strcmp($this->request->getPost('cellphone'), '') == 0) ?
+				$profile[0]['cellphone'] : $this->request->getPost('cellphone');
+			//Si los datos son correctos los guardamos.
 			if ($this->validate('profiles_personal')) {
-				$data = [
-					'id' => $profile[0]['id'],
-					//'imgProfile' => $imgName,
-					'workstation' => $this->request->getPost('workstation'),
-					'cellphone' => $this->request->getPost('cellphone'),
-				];
-				$profiles->save($data);
-				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
-			} else {
-				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+				$profiles->save($dataProfile);
+				//return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 			}
-			if (strcmp($this->request->getPost('username'), '') != 0 && $this->validate(
-				['username' => array_merge(
-					config('AuthSession')->usernameValidationRules,
-					['is_unique[users.username]']
-				)]
-			)) {
-				$dataUser = [
-					'id' => auth()->getUser()->id,
-					'username' => $this->request->getPost('username')
-				];
-				$userUpdate = new User($dataUser);
-				$users->save($userUpdate);
-			} else {
-				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+			//Datos de la tabla usuarios
+			$dataUser = [];
+			//Recuperamos y pseudo-comprobamos que los datos existan.
+			//$dataUser['id'] = auth()->getUser()->id;
+			$dataUser['username'] = (strcmp($this->request->getPost('username'), '') == 0) ?
+				auth()->getUser()->username :
+				$this->request->getPost('username');
+			$rulesUsername =  array_merge(
+				config('AuthSession')->usernameValidationRules,
+				['is_unique[users.username]']
+			);
+			if ($this->validate(['username' => $rulesUsername])) {
+				$user = auth()->getUser();
+				$user->fill($dataUser);
+				$users->save($user);
+				print_r($user);
+				return "";
 			}
-			if (strcmp($this->request->getPost('password'), '') != 0 && strcmp($this->request->getPost('password_confirm'), '') != 0) {
-				if ($this->validate([
-					'password'         => 'required|strong_password',
-					'password_confirm' => 'required|matches[password]',
-				])) {
-					$identity =new UserIdentityModel();
-					$UserIdentityData = $identity->where('user_id',auth()->getUser()->id)->findAll();
-					$userUpdateIdentity = [
-						'id' => $UserIdentityData[0]['id'],
-						'secret2' => password_hash($this->request->getPost('password'),PASSWORD_DEFAULT)
-					];
-					$identity->save($userUpdateIdentity);
-				}
-				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
-			}
-
-
-			return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 		} elseif (strcmp($this->request->getPost('type-informacion'), 'social') == 0) {
-			if ($this->validate('profiles_social')) {
-				$data = [
-					'id' => $profile[0]['id'],
-					//'imgProfile' => $imgName,
-					//'workstation' => $this->request->getPost('workstation'),
-					'github_link' => $this->request->getPost('github_link'),
-					'twitter_link' => $this->request->getPost('twitter_link'),
-					'facebook_link' => $this->request->getPost('facebook_link'),
-				];
-				$profiles->save($data);
-				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
-			} else {
-				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
-			}
 		}
+		return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 	}
 }
