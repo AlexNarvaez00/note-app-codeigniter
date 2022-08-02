@@ -106,11 +106,7 @@ class Profile extends BaseController
 			$dataUser['username'] = (strcmp($this->request->getPost('username'), '') == 0) ?
 				auth()->getUser()->username :
 				$this->request->getPost('username');
-			$rulesUsername =  array_merge(
-				config('AuthSession')->usernameValidationRules,
-				['is_unique[users.username]']
-			);
-			if ($this->validate(['username' => $rulesUsername])) {
+			if ($this->validate('userProfile') ) {
 				$user = auth()->getUser();
 				$user->fill($dataUser);
 				$users->save($user);
@@ -120,5 +116,27 @@ class Profile extends BaseController
 		} elseif (strcmp($this->request->getPost('type-informacion'), 'social') == 0) {
 		}
 		return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+	}
+	//------------------ REGLA COPIADA DE LA VALIDACION
+	/**
+	 * Returns the rules that should be used for validation.
+	 *
+	 * @return string[]
+	 */
+	protected function getValidationRules(): array
+	{
+		$registrationUsernameRules = array_merge(
+			config('AuthSession')->usernameValidationRules,
+			['is_unique[users.username]']
+		);
+		/* $registrationEmailRules = array_merge(*/
+		/*config('AuthSession')->emailValidationRules,*/
+		/*['is_unique[auth_identities.secret]']*/
+		/*);*/
+
+		return setting('Validation.registration') ?? [
+			'username'         => $registrationUsernameRules,
+			//'password_confirm' => 'required|matches[password]',
+		];
 	}
 }

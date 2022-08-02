@@ -47,19 +47,15 @@ class Validation extends BaseConfig
 	];
 	public $profiles_personal = [
 		//'imgProfile' => 'permit_empty|uploaded[uploaded]|max_size[6,144]|is_image[imgProfile]|ext_in[imgProfile,png,jpg,jpeg]',
-		//'filepond' => 'permit_empty|uploaded[uploaded]|max_size[6,144]|is_image[imgProfile]|ext_in[imgProfile,png,jpg,jpeg]',
 		'workstation' => 'permit_empty|alpha_space|greater_than[2]',
-		//'github_link' => 'permit_empty',
-		//'twitter_link' => 'permit_empty',
-		//'facebook_link' => 'permit_empty',
 		'cellphone' => 'required|permit_empty|numeric'
 	];
 	public $profiles_social = [
-		//'imgProfile' => 'permit_empty|uploaded[uploaded]|max_size[6,144]|is_image[imgProfile]|ext_in[imgProfile,png,jpg,jpeg]',
-		//'workstation' => 'permit_empty|alpha_space',
 		'github_link' => 'permit_empty|valid_url',
 		'twitter_link' => 'permit_empty|valid_url',
 		'facebook_link' => 'permit_empty|valid_url',
-		//'cellphone' => 'permit_empty|numeric'
+	];
+	public $userProfile = [
+		'username' => 'required|alpha_space|is_unique[users.username]|min_length[3]|max_length[30]'
 	];
 }
