@@ -55,7 +55,8 @@ class Validation extends BaseConfig
 		'twitter_link' => 'permit_empty|valid_url',
 		'facebook_link' => 'permit_empty|valid_url',
 	];
-	public $userProfile = [
-		'username' => 'required|alpha_space|is_unique[users.username]|min_length[3]|max_length[30]'
+	public $userPassword = [
+		'password'         => 'strong_password',
+		'password_confirm' => 'matches[password]',
 	];
 }
