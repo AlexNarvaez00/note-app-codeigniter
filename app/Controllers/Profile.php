@@ -4,11 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Profile as ModelsProfile;
-use CodeIgniter\Shield\Authentication\Authenticators\Session;
-use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Authentication\Passwords;
 
 class Profile extends BaseController
 {
@@ -84,6 +81,12 @@ class Profile extends BaseController
 		$identities = new UserIdentityModel();
 		//Busqueda del perfil del usuario
 		$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+
+		//Variables de validaciones.
+		$profilesPersonalValidate = $this->validate('profiles_personal');
+		$rulesUser =  $this->getValidationRules();
+		$userInfoValidate = $this->validate($rulesUser);
+
 		//Cambiarlo por un switch 
 		if (strcmp($this->request->getPost('type-informacion'), 'personal') == 0) {
 			//Datos basicos del perfil
@@ -95,25 +98,29 @@ class Profile extends BaseController
 			$dataProfile['cellphone'] = (strcmp($this->request->getPost('cellphone'), '') == 0) ?
 				$profile[0]['cellphone'] : $this->request->getPost('cellphone');
 			//Si los datos son correctos los guardamos.
-			if ($this->validate('profiles_personal')) {
+			if ($profilesPersonalValidate) {
 				$profiles->save($dataProfile);
-				//return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 			}
+
 			//Datos de la tabla usuarios
 			$dataUser = [];
 			//Recuperamos y pseudo-comprobamos que los datos existan.
-			//$dataUser['id'] = auth()->getUser()->id;
-			$dataUser['username'] = (strcmp($this->request->getPost('username'), '') == 0) ?
-				auth()->getUser()->username :
-				$this->request->getPost('username');
-			if ($this->validate('userProfile') ) {
+			if ($userInfoValidate) {
+				$dataUser['username'] = (strcmp($this->request->getPost('username'), '') == 0) ?
+					auth()->getUser()->username :
+					$this->request->getPost('username');
 				$user = auth()->getUser();
 				$user->fill($dataUser);
 				$users->save($user);
-				print_r($user);
-				return "";
 			}
+
+			//Datos apra verificar si cambio las contrasenias.
+
 		} elseif (strcmp($this->request->getPost('type-informacion'), 'social') == 0) {
+		}
+		//Preguntamos si ninguna validacion fallo
+		if(!$profilesPersonalValidate | !$userInfoValidate){
+			return redirect()->back()->withInput()->with('errors',$this->validator);
 		}
 		return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 	}
@@ -129,14 +136,8 @@ class Profile extends BaseController
 			config('AuthSession')->usernameValidationRules,
 			['is_unique[users.username]']
 		);
-		/* $registrationEmailRules = array_merge(*/
-		/*config('AuthSession')->emailValidationRules,*/
-		/*['is_unique[auth_identities.secret]']*/
-		/*);*/
-
 		return setting('Validation.registration') ?? [
 			'username'         => $registrationUsernameRules,
-			//'password_confirm' => 'required|matches[password]',
 		];
 	}
 }

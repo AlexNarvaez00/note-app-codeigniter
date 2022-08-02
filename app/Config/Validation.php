@@ -47,7 +47,7 @@ class Validation extends BaseConfig
 	];
 	public $profiles_personal = [
 		//'imgProfile' => 'permit_empty|uploaded[uploaded]|max_size[6,144]|is_image[imgProfile]|ext_in[imgProfile,png,jpg,jpeg]',
-		'workstation' => 'permit_empty|alpha_space|greater_than[2]',
+		'workstation' => 'permit_empty|alpha_space|min_length[3]|max_length[30]',
 		'cellphone' => 'required|permit_empty|numeric'
 	];
 	public $profiles_social = [
