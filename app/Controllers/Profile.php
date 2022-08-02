@@ -5,9 +5,10 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Profile as ModelsProfile;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 use PhpParser\Node\Expr\FuncCall;
-
+use CodeIgniter\Shield\Authentication\Passwords;
 class Profile extends BaseController
 {
 	protected $helpers = ['auth', 'setting'];
@@ -88,7 +89,7 @@ class Profile extends BaseController
 					'cellphone' => $this->request->getPost('cellphone'),
 				];
 				$profiles->save($data);
-				//return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 			} else {
 				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 			}
@@ -107,6 +108,23 @@ class Profile extends BaseController
 			} else {
 				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 			}
+			if (strcmp($this->request->getPost('password'), '') != 0 && strcmp($this->request->getPost('password_confirm'), '') != 0) {
+				if ($this->validate([
+					'password'         => 'required|strong_password',
+					'password_confirm' => 'required|matches[password]',
+				])) {
+					$identity =new UserIdentityModel();
+					$UserIdentityData = $identity->where('user_id',auth()->getUser()->id)->findAll();
+					$userUpdateIdentity = [
+						'id' => $UserIdentityData[0]['id'],
+						'secret2' => password_hash($this->request->getPost('password'),PASSWORD_DEFAULT)
+					];
+					$identity->save($userUpdateIdentity);
+				}
+				return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+			}
+
+
 			return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
 		} elseif (strcmp($this->request->getPost('type-informacion'), 'social') == 0) {
 			if ($this->validate('profiles_social')) {
