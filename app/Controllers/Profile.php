@@ -86,7 +86,9 @@ class Profile extends BaseController
 			//Variables de validaciones.
 			$profilesPersonalValidate = $this->validate('profiles_personal');
 			$rulesUser =  $this->getValidationRules();
-			$userInfoValidate = $this->validate($rulesUser);
+			$userInfoValidate = (strcmp($this->request->getPost('username'), auth()->getUser()->username) == 0) ?
+				false :
+				$this->validate($rulesUser);
 			$passwordValidate = $this->validate('userPassword');
 
 
@@ -106,8 +108,8 @@ class Profile extends BaseController
 
 			//Datos de la tabla usuarios
 			$dataUser = [];
-			//Recuperamos y pseudo-comprobamos que los datos existan.
 			if ($userInfoValidate) {
+				//Recuperamos y pseudo-comprobamos que los datos existan.
 				$dataUser['username'] = (strcmp($this->request->getPost('username'), '') == 0) ?
 					auth()->getUser()->username :
 					$this->request->getPost('username');
@@ -122,6 +124,8 @@ class Profile extends BaseController
 				$dataUser['password'] = $this->request->getPost('password');
 				auth()->getUser()->fill($dataUser);
 				$users->save(auth()->getUser());
+				auth()->logout();
+				return redirect()->to(base_url('login'));
 			}
 			//Preguntamos si ninguna validacion fallo
 			if (!$profilesPersonalValidate | !$userInfoValidate | !$passwordValidate) {
@@ -144,8 +148,8 @@ class Profile extends BaseController
 				$this->request->getPost('github_link');
 			if ($this->validate('profiles_social')) {
 				$profiles->save($dataSocial);
-			}else{
-				return redirect()->back()->withInput()->with('errors',$this->validator);
+			} else {
+				return redirect()->back()->withInput()->with('errors', $this->validator);
 			}
 		}
 
