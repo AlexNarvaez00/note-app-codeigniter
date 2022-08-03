@@ -16,12 +16,12 @@
  <title>
   <?= $this->renderSection('title-page') ?>
  </title>
- <link rel="icon" type="image/x-icon" href="../src/assets/img/favicon.ico" />
+ <link rel="icon" type="image/x-icon" href="<?= base_url('cork')?>/src/assets/img/favicon.ico" />
  <?= link_tag("cork/layouts/vertical-light-menu/css/light/loader.css") ?>
  <?= link_tag("cork/layouts/vertical-light-menu/css/dark/loader.css") ?>
  <?= script_tag("cork/layouts/vertical-light-menu/loader.js") ?>
  <!-- BEGIN GLOBAL MANDATORY STYLES -->
- <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">-->
+ <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
  <?= link_tag("cork/src/bootstrap/css/bootstrap.min.css") ?>
  <?= link_tag("cork/layouts/vertical-light-menu/css/light/plugins.css") ?>
  <?= link_tag("cork/layouts/vertical-light-menu/css/dark/plugins.css") ?>

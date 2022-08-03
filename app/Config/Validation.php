@@ -50,6 +50,9 @@ class Validation extends BaseConfig
 		'workstation' => 'permit_empty|alpha_space|min_length[3]|max_length[30]',
 		'cellphone' => 'required|permit_empty|numeric'
 	];
+	public $imgProfile = [
+		'imgProfile' => 'is_image[imgProfile]|mime_in[imgProfile,image/jpg,image/jpeg,image/png,image/webp]|max_size[imgProfile,4096]'
+	];
 	public $profiles_social = [
 		'github_link' => 'permit_empty|valid_url',
 		'twitter_link' => 'permit_empty|valid_url',

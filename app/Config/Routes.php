@@ -62,5 +62,8 @@ $routes->resource('profile');
 
 $routes->get('/singup','Register::index');
 $routes->post('/singup','Register::registerAction');
+
+$routes->get('/upload/(.*)','UploadFile::index/$1');
 $routes->post('/upload/(.*)','UploadFile::store/$1');
+$routes->delete('/upload/(.*)','UploadFile::delete/$1');
 //service('auth')->routes($routes);

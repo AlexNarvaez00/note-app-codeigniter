@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Profile as ModelsProfile;
-use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\UserModel;
 
 class Profile extends BaseController
@@ -83,15 +82,21 @@ class Profile extends BaseController
 
 		//Cambiarlo por un switch 
 		if (strcmp($this->request->getPost('type-informacion'), 'personal') == 0) {
+			//Variables de condiciones
+			$passwordEmpty = strcmp($this->request->getPost('password'), '') == 0;
+			$usernameRequest = $this->request->getPost('username');
 			//Variables de validaciones.
 			$profilesPersonalValidate = $this->validate('profiles_personal');
 			$rulesUser =  $this->getValidationRules();
-			$userInfoValidate = (strcmp($this->request->getPost('username'), auth()->getUser()->username) == 0) ?
+			$userInfoValidate = (strcmp($usernameRequest, auth()->getUser()->username) == 0) ?
 				false :
 				$this->validate($rulesUser);
-			$passwordValidate = $this->validate('userPassword');
-
-
+			$passwordValidate = ($passwordEmpty) ?
+				false :
+				$this->validate('userPassword');
+			$imgProfileValidate = (strcmp($this->request->getFile('imgProfile')->getName(), '') == 0) ?
+				false :
+				$this->validate('imgProfile');
 
 			//Datos basicos del perfil
 			$dataProfile = [];
@@ -105,14 +110,40 @@ class Profile extends BaseController
 			if ($profilesPersonalValidate) {
 				$profiles->save($dataProfile);
 			}
+			if ($imgProfileValidate) {
+				$dataProfile = [];
+				$nameFileSend = str_replace(base_url('imgs/'), '', $this->request->getFile('imgProfile')->getName());
+				if (strcmp($nameFileSend, $profile[0]['imgProfile']) != 0) {
+					//Significa que si cambio el archivo
+					//Eliminamos el archivo anterior
+					if (is_file('../public/imgs/' . $profile[0]['imgProfile'])) {
+						unlink('../public/imgs/' . $profile[0]['imgProfile']);
+					}
+
+					//Recuperamos y movemos el archivo	
+					$file = $this->request->getFile('imgProfile');
+					$fileName = $file->getRandomName();
+					$dataProfile['id'] = $profile[0]['id'];
+					$dataProfile['imgProfile'] = $fileName;
+					$profiles->save($dataProfile);
+					$file->move('../public/imgs', $fileName);
+				} else {
+					//No cambio el archivo
+				}
+
+				//$dataProfile['imgProfile'] => 
+				//$file = $this->request->getFile('imgProfile');
+				//$fileName = $file->getRandomName();
+
+			}
 
 			//Datos de la tabla usuarios
 			$dataUser = [];
 			if ($userInfoValidate) {
 				//Recuperamos y pseudo-comprobamos que los datos existan.
-				$dataUser['username'] = (strcmp($this->request->getPost('username'), '') == 0) ?
+				$dataUser['username'] = (strcmp($usernameRequest, '') == 0) ?
 					auth()->getUser()->username :
-					$this->request->getPost('username');
+					$usernameRequest;
 				$user = auth()->getUser();
 				$user->fill($dataUser);
 				$users->save($user);
@@ -120,7 +151,7 @@ class Profile extends BaseController
 
 			//Datos apra verificar si cambio las contrasenias.
 			$dataUser = [];
-			if ($passwordValidate && strcmp($this->request->getPost('password'), '') != 0) {
+			if ($passwordValidate) {
 				$dataUser['password'] = $this->request->getPost('password');
 				auth()->getUser()->fill($dataUser);
 				$users->save(auth()->getUser());
@@ -128,7 +159,7 @@ class Profile extends BaseController
 				return redirect()->to(base_url('login'));
 			}
 			//Preguntamos si ninguna validacion fallo
-			if (!$profilesPersonalValidate | !$userInfoValidate | !$passwordValidate) {
+			if (!$profilesPersonalValidate | !$userInfoValidate | !$passwordValidate | !$imgProfileValidate) {
 				return redirect()->back()->withInput()->with('errors', $this->validator);
 			}
 		} elseif (strcmp($this->request->getPost('type-informacion'), 'social') == 0) {
@@ -153,8 +184,17 @@ class Profile extends BaseController
 			}
 		}
 
-		return redirect()->to(base_url('profile/' . auth()->getUser()->id . '/edit'));
+		return redirect()->to(str_replace('index.php/', '', base_url('profile/' . auth()->getUser()->id . '/edit')));
 	}
+	public function delete($id){
+		$users = new UserModel();
+		$user = $users->where('id',auth()->getUser()->id)->first();
+		//print_r($user->id);
+		$users->delete($user->id);
+		auth()->logout();
+		return redirect()->to(base_url('/login'));
+	}
+
 	//------------------ REGLA COPIADA DE LA VALIDACION
 	/**
 	 * Returns the rules that should be used for validation.

@@ -9,6 +9,7 @@
 
 <?= link_tag('cork/src/plugins/css/light/filepond/custom-filepond.css') ?>
 <?= link_tag('cork/src/assets/css/light/components/tabs.css') ?>
+<?= link_tag('cork/src/assets/css/light/elements/alert.css') ?>
 
 <?= link_tag('cork/src/plugins/css/light/sweetalerts2/custom-sweetalert.css') ?>
 <?= link_tag('cork/src/plugins/css/light/notification/snackbar/custom-snackbar.css') ?>
@@ -47,7 +48,7 @@ Edit - Profile
 <div class="tab-pane fade show active" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
  <div class="row">
   <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-   <form class="section general-info" id="section-general-information" method="POST" action="<?= url_to('Profile::update/$1', auth()->getUser()->id) ?>">
+   <form class="section general-info" id="section-general-information" method="POST" action="<?= url_to('Profile::update/$1', auth()->getUser()->id) ?>" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <input type="hidden" name="type-informacion" value="personal">
     <input type="hidden" name="_method" value="PUT">
@@ -66,7 +67,7 @@ Edit - Profile
                                                                         // properties to JavaScript -->
 
           <div class="img-uploader-content">
-           <input type="file" class="filepond" name="filepond" accept="image/png, image/jpeg, image/gif" value="<?= base_url('imgs/' . $profile['imgProfile']) ?>" />
+           <input type="file" class="filepond" name="imgProfile" id="profileImage" accept="image/jpg, image/png, image/jpeg, image/gif" value="<?= base_url('imgs/' . $profile['imgProfile']) ?>" />
           </div>
 
          </div>
@@ -235,40 +236,63 @@ Edit - Profile
    </form>
   </div>
  </div>
+ <!-- Elimnar las cuentas -->
+ <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
+  <form id="social" class="section social" method="POST" action="<?= url_to('Profile::delete/$1', auth()->getUser()->id) ?>">
+   <?= csrf_field() ?>
+   <input type="hidden" name="_method" value="DELETE">
+   <div class="info">
+    <h5 class="">Danger Zone</h5>
+    <div class="row">
+     <div class="col-md-12 mt-1">
+      <div class="form-group text-end">
+       <button class="btn btn-danger">Delete</button>
+      </div>
+     </div>
+    </div>
+   </div>
+  </form>
+ </div>
+
+
+
+
 </div>
 <?= $this->endSection() ?>
 <?= $this->section('script-section') ?>
 <script>
  let imgProfileSRC = "<?= base_url('imgs/' . $profile['imgProfile']) ?>";
 </script>
-<?= script_tag("cork/src/plugins/src/filepond/filepond.min.js") ?>
-<?= script_tag("cork/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js") ?>
-<?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js") ?>
-<?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImagePreview.min.js") ?>
-<?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageCrop.min.js") ?>
-<?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageResize.min.js") ?>
-<?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageTransform.min.js") ?>
-<?= script_tag("cork/src/plugins/src/filepond/filepondPluginFileValidateSize.min.js") ?>
-<?= script_tag("cork/src/plugins/src/notification/snackbar/snackbar.min.js") ?>
-<?= script_tag("cork/src/plugins/src/sweetalerts2/sweetalerts2.min.js") ?>
-<?= script_tag("cork/src/assets/js/users/account-settings.js") ?>
+<!-- <?= script_tag("cork/src/plugins/src/filepond/filepond.min.js") ?> -->
+<!-- <?= script_tag("cork/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js") ?>  -->
+<!-- <?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js") ?>  -->
+<!-- <?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImagePreview.min.js") ?>  -->
+<!-- <?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageCrop.min.js") ?>  -->
+<!-- <?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageResize.min.js") ?>  -->
+<!-- <?= script_tag("cork/src/plugins/src/filepond/FilePondPluginImageTransform.min.js") ?>  -->
+<!-- <?= script_tag("cork/src/plugins/src/filepond/filepondPluginFileValidateSize.min.js") ?> -->
+<!-- <?= script_tag("cork/src/plugins/src/notification/snackbar/snackbar.min.js") ?> -->
+<!-- <?= script_tag("cork/src/plugins/src/sweetalerts2/sweetalerts2.min.js") ?> -->
+<!-- <?= script_tag("cork/src/assets/js/users/account-settings.js") ?> -->
 <script>
- FilePond.setOptions({
-  server: {
-   url: '<?= url_to('UploadFile::store/$1', auth()->getUser()->id) ?>',
-   headers: {
-    "X-CSRF-TOKEN": "<?= csrf_hash() ?>"
-   },
-   process: {
-    method: 'POST',
-    onload: (response) => {
-     console.log(response)
-    },
-    onerror: (res) => {
-     console.log(res)
-    }
-   }
-  }
- });
+ //let imgProfielInput = document.querySelector('.filepond#profileImage');
+ //const filepond = FilePond.create(imgProfielInput);
+ /*FilePond.setOptions({*/
+ /*server: {*/
+ /*url: '<?= url_to('UploadFile::store/$1', auth()->getUser()->id) ?>',*/
+ /*headers: {*/
+ /*"X-CSRF-TOKEN": "<?= csrf_hash() ?>"*/
+ /*},*/
+ /*process: {*/
+ /*method: 'POST',*/
+ /*onload: (response) => {*/
+ /*console.log(response)*/
+ /*},*/
+ /*onerror: (res) => {*/
+ /*console.log(res)*/
+ /*}*/
+ /*}*/
+ /*}*/
+ /*});*/
 </script>
 <?= $this->endSection() ?>

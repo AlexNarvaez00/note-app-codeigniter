@@ -15,10 +15,19 @@ class UploadFile extends ResourceController
 	public function index()
 	{
 	}
+
+	public function getResources($idUser)
+	{
+		$profiles = new Profile();
+		$profile = $profiles->where('idUser', $idUser)->first();
+		return $this->respond([
+			'value' => base_url('imgs') . '/' . $profile['imgProfile']
+		]);
+	}
 	public function store($idUser)
 	{
 		$profiles = new Profile();
-		$profile = $profiles->where('idUser', auth()->getUser()->id)->findAll();
+		$profile = $profiles->where('idUser', $idUser)->findAll();
 		$imgName = null;
 		if ($this->request->getPost('filepond')) {
 			if (strcmp($this->request->getFile('filepond')->getName(), $profile[0]['imgProfile']) != 0) {
@@ -40,6 +49,15 @@ class UploadFile extends ResourceController
 		}
 		return $this->respond([
 			'error' => 'Not working'
+		]);
+	}
+	public function delete($idUser = null)
+	{
+		$profiles = new Profile();
+		$profile = $profiles->where('idUser', $idUser)->findAll();
+		unlink('../public/imgs/' . $profile[0]['imgProfile']);
+		return $this->respond([
+			'status' => 'DELETED'
 		]);
 	}
 }
